@@ -1,0 +1,41 @@
+<div class="container">
+  <ul>
+    <%= "round list：" %>
+    <% @rounds.each do |round| %>
+      <li>
+          <div class="delete-button">
+              <%= button_to "删除",
+                  drawadmin_round_path(round),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %>
+          </div>
+          <div class="card">
+              <%= round.id %>,
+              <%= round.created_at.in_time_zone("Beijing").strftime('%Y-%m-%d %H:%M:%S %Z') %>,
+              <%= round.num %>,
+              <%= round.keyword %>,
+              <%= round.target %>,
+              <%= round.arrayraw %>,
+              <%= round.arraynew %>
+          </div>
+      </li>
+    <% end %>
+    <br>
+    <br>
+    <br>
+    <%= "participant list：" %>
+    <% @participants.each do |participate| %>
+      <li>
+          <div class="card">
+              <%= participate.id %>,
+              <%= participate.round.id %>,
+              <%= participate.created_at.in_time_zone("Beijing").strftime('%Y-%m-%d %H:%M:%S %Z') %>,
+              <%= participate.name %>,
+              <%= participate.company %>,
+              <%= participate.result %>
+          </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
+

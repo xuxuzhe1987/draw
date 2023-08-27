@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+ .container {
+  max-width: 800px; /* 调整此值以适应您的需求 */
+  margin: 0 auto;    /* 居中内容 */
+  padding: 20px;     /* 可选的内边距，根据您的需要进行调整 */
+  box-sizing: border-box; /* 使内边距和边框不影响总宽度 */
+}
+
+ .card {
+  display: inline-block;
+}
+  
+.delete-button {
+  display: inline-block;
+}
+
+.add-button {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
