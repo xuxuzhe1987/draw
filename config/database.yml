@@ -82,5 +82,5 @@ test:
 production:
   <<: *default
   database: draw_production
-  username: draw
+  username: ecs-user
   password: <%= ENV["DRAW_DATABASE_PASSWORD"] %>
