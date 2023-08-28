@@ -4,7 +4,7 @@ class Drawapi::V1::RoundsController < Drawapi::V1::BaseController
   before_action :set_round, only: [ :show, :destroy ]
 
   def index
-    @rounds = Round.order(created_at: :desc)
+    @rounds = Round.where(user_id: @current_user.id).order(created_at: :desc)
   end
 
   def show
@@ -13,7 +13,7 @@ class Drawapi::V1::RoundsController < Drawapi::V1::BaseController
 
   def create
     @round = Round.new(round_params)
-    content = @round.keyword
+    content = @round.keyword + @round.target
     checking_res = message_check(content)
     if checking_res["errcode"] == 0
       @round.user = @current_user

@@ -12,22 +12,33 @@ class Drawapi::V1::RoundParticipantsController < Drawapi::V1::BaseController
 
   def create
     @round = Round.find(params[:round_id])
-    @participant = Participant.new(participant_params)
-    @participant.round = @round
-    @participant.result = "0"
 
-    content = @participant.name + @participant.company
-    checking_res = message_check(content)
-    if checking_res["errcode"] == 0
-      @participant.user = @current_user
-      if @participant.save
-        render :show, status: :created
+    # 使用悲观锁来获取并锁定 @round 记录
+    @round.with_lock do
+      # 检查当前用户是否已经抽过号
+      if @round.participants.where(user_id: @current_user.id).exists?
+        render json: { error: '您已参与过本轮抽号' }, status: :unprocessable_entity
       else
-        render_error
+        # 创建一个新的抽号记录
+        @participant = Participant.new(participant_params)
+        @participant.round = @round
+        @participant.result = "0"
+
+        content = @participant.name + @participant.company
+        checking_res = message_check(content)
+        if checking_res["errcode"] == 0
+          @participant.user = @current_user
+          if @participant.save
+            render :show, status: :created
+          else
+            render_error
+          end
+        else
+          render json: checking_res
+        end
       end
-    else
-      render json: checking_res
     end
+
   end
 
   def update

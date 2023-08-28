@@ -5,6 +5,7 @@ class Drawadmin::RoundsController < ApplicationController
     def index
         @rounds = Round.order(created_at: :desc)
         @participants = Participant.order(created_at: :desc)
+        @users = User.order(created_at: :desc)
     end
 
     def destroy
