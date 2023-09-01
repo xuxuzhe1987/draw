@@ -86,7 +86,7 @@ class Drawapi::V1::RoundParticipantsController < Drawapi::V1::BaseController
     @participant.round.arrayraw = @participant.round.arrayraw.map(&:to_i)
     @participant.round.arraynew = @participant.round.arraynew.map(&:to_i)
     
-    if @participant.company.include?(@participant.round.keyword)
+    if @participant.company.include?(@participant.round.keyword) || @participant.name.include?(@participant.round.keyword)
       if @participant.round.arrayraw.include?(target_num)
         @participant.result = target_num
         @participant.round.arrayraw.delete(target_num)
